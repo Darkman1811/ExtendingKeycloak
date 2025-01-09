@@ -1,28 +1,11 @@
 package com.gwidgets;
 
-import org.keycloak.models.RealmModel;
-import org.keycloak.models.UserModel;
+import org.keycloak.Config;
+import org.keycloak.models.KeycloakSession;
+import org.keycloak.models.KeycloakSessionFactory;
 import org.keycloak.policy.PasswordPolicyProvider;
-import org.keycloak.policy.PolicyError;
+import org.keycloak.policy.PasswordPolicyProviderFactory;
 
-public class DollarPasswordPolicyProvider implements PasswordPolicyProvider  {
-    @Override
-    public PolicyError validate(RealmModel realm, UserModel user, String password) {
-        return validate(null, password);
-    }
+public class DollarPasswordPolicyProvider   {
 
-    @Override
-    public PolicyError validate(String user, String password) {
-        return password.startsWith("$") && password.endsWith("$") ? null : new PolicyError("password should start and end with $ character");
-    }
-
-    @Override
-    public Object parseConfig(String value) {
-        return null;
-    }
-
-    @Override
-    public void close() {
-
-    }
 }

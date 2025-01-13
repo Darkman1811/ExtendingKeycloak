@@ -5,6 +5,7 @@ import org.keycloak.email.EmailSenderProvider;
 import org.keycloak.email.EmailSenderProviderFactory;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.KeycloakSessionFactory;
+import org.keycloak.models.RealmModel;
 import org.keycloak.provider.ProviderConfigProperty;
 
 import java.util.List;
@@ -22,7 +23,12 @@ public class VoidEmailSenderProviderFactory implements EmailSenderProviderFactor
 
     @Override
     public void postInit(KeycloakSessionFactory keycloakSessionFactory) {
+        keycloakSessionFactory.register((providerEvent -> {
 
+            if (providerEvent instanceof RealmModel.RealmPostCreateEvent) {
+                System.out.println("======================= RealmPostCreateEvent captured =======================");
+            }
+        }));
     }
 
     @Override

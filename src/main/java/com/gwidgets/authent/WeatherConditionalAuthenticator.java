@@ -24,22 +24,26 @@ public class WeatherConditionalAuthenticator implements ConditionalAuthenticator
     private final HttpClient client;
 
     public WeatherConditionalAuthenticator(ObjectMapper objectMapper, HttpClient client) {
+        System.out.println("================= constructor ====================");
         this.objectMapper = objectMapper;
         this.client = client;
     }
 
     @Override
     public boolean matchCondition(AuthenticationFlowContext context) {
+        System.out.println("================= Match condition ====================");
         var authenticatorConfig = context.getAuthenticatorConfig();
         if (authenticatorConfig == null) {
             return false;
         }
         var config = authenticatorConfig.getConfig();
         var currentUser = context.getUser();
-        var latitude = currentUser.getFirstAttribute("latitude");
-        var longitude = currentUser.getFirstAttribute("longitude");
+        var latitude = "48.866667";//currentUser.getFirstAttribute("latitude");
+        var longitude = "2.333333";//currentUser.getFirstAttribute("longitude");
+        System.out.println("longitude = " + longitude);
+        System.out.println("latitude = " + latitude);
         if (StringUtil.isBlank(latitude) || StringUtil.isBlank(longitude)) {
-            return false;
+            return true;
         }
         float temperature;
         try {
@@ -73,6 +77,7 @@ public class WeatherConditionalAuthenticator implements ConditionalAuthenticator
     }
 
     private float getWeatherTemperature(String latitude, String longitude) throws Exception {
+        System.out.println("================= Get Weather Temperature ====================");
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://api.open-meteo.com/v1/forecast?latitude="+latitude+"&longitude="+longitude+"&current_weather=true"))
                 .GET()
